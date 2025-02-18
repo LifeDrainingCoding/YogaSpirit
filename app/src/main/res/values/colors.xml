@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/design_default_color_primary</color>
+    <color name="primary_dark">@color/design_default_color_primary_dark</color>
+    <color name="primary_variant">@color/design_default_color_primary_variant</color>
+    <color name="secondary">@color/design_default_color_secondary</color>
+    <color name="secondary_variant">@color/design_default_color_secondary_variant</color>
+    <color name="error">@color/design_default_color_error</color>
+    <color name="error_text">#FD9D99</color>
+    <color name="warning">#F3AE01</color>
+    <color name="warning_text">#FDCA34</color>
+    <color name="success100">#158343</color>
+    <color name="success50">#249E64</color>
+    <color name="success_text">#12D765</color>
+    <color name="head_text">#F3F7FE</color>
+    <color name="body_text">#D5DEEB</color>
+    <color name="secondary_text">#9FADC1</color>
+    <color name="tertiary_text">#7487A0</color>
+    <color name="background">#36475F</color>
+    <color name="background2">#2D3D52</color>
+    <color name="black">#000000</color>
+</resources>

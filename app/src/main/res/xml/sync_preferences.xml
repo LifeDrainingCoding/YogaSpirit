@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="sync"
+        app:title="@string/enable_rest_notification" />
+
+    <SwitchPreferenceCompat
+        app:dependency="sync"
+        app:key="attachment"
+        app:summaryOff="@string/dairy_notification_off"
+        app:summaryOn="@string/dairy_notification_on"
+        app:title="@string/enable_dairy_notification" />
+
+</PreferenceScreen>

@@ -1,0 +1,24 @@
+<resources>
+    <!-- login activity -->
+    <string name="app_name">YogaSpirit</string>
+    <string name="login_lbl">Логин</string>
+    <string name="password_lbl">Пароль</string>
+    <string name="login_btn">Войти</string>
+    <string name="register_btn">Зарегистрироваться</string>
+    <!-- main activity -->
+    <string name="rec_tab">Лента</string>
+    <string name="dairy_tab">Дневник</string>
+    <string name="meditation_tab">Медитация</string>
+    <string name="tests_tab">Тесты</string>
+    <string name="progress_tab">Прогресс</string>
+    <string name="stress_tab">Стрессоустойчивость</string>
+    <string name="addons_tab">Доп. Материалы</string>
+    <!-- settings activity -->
+    <string name="settings_tittle">Настройки</string>
+    <string name="enable_rest_notification">Включить уведомления об отдыхе</string>
+    <string name="enable_dairy_notification">Включить уведомления о введении дневника</string>
+    <string name="dairy_notification_on">Уведомления о введении дневника включены</string>
+    <string name="dairy_notification_off">Уведомления о введении дневника выключены</string>
+    <!-- fragment audio -->
+    <string name="finish">Завершить медитацию</string>
+</resources>

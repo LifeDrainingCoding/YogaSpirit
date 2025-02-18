@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1003386764403",
+    "firebase_url": "https://yogaspirit-b06fa-default-rtdb.firebaseio.com",
+    "project_id": "yogaspirit-b06fa",
+    "storage_bucket": "yogaspirit-b06fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003386764403:android:14a58bba12e4b484f6fe06",
+        "android_client_info": {
+          "package_name": "com.pracktic.yogaspirit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8KvaOHKj9_N-ElFLsClaLmoprOak9__M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

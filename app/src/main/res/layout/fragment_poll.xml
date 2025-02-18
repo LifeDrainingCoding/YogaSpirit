@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".fragments.TestsFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        style="@style/BaseMargin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="350dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/col1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/col2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        style="@style/BaseMargin"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:maxHeight="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/pollTxt"
+                style="@style/Widget.PollTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        style="@style/BaseMargin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/prevBtn"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:icon="@drawable/chevron_l"
+            app:iconGravity="textTop"
+            android:text=""
+            app:iconSize="40dp"
+            android:layout_weight="1"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nextBtn"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:icon="@drawable/chevron_r"
+            app:iconGravity="textTop"
+            android:text=""
+            app:iconSize="40dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
