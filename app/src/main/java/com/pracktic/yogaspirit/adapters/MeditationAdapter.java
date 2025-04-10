@@ -12,27 +12,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pracktic.yogaspirit.data.Article;
-import com.pracktic.yogaspirit.data.OnDataIO;
+import com.pracktic.yogaspirit.data.interfaces.OnDataIO;
 import com.pracktic.yogaspirit.data.SessionManager;
+import com.pracktic.yogaspirit.data.interfaces.OnDataLoader;
 import com.pracktic.yogaspirit.data.singleton.Timer;
-import com.pracktic.yogaspirit.data.singleton.Timestamp;
-import com.pracktic.yogaspirit.data.user.Session;
 import com.pracktic.yogaspirit.data.user.UserData;
 import com.pracktic.yogaspirit.databinding.FragmentMeditationBinding;
 import com.pracktic.yogaspirit.utils.DBUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 
 public class MeditationAdapter extends RecyclerView.Adapter<MeditationAdapter.ViewHolder> {
     private static final String TAG = MeditationAdapter.class.getName();
     private final List<Article> items;
-    private OnDataIO<UserData> onDataIO;
+    private OnDataLoader<UserData> onDataIO;
+    private List<TextView> descriptions;
 
-    public MeditationAdapter(List<Article> items, OnDataIO<UserData> onDataIO) {
+    public MeditationAdapter(List<Article> items, OnDataLoader<UserData> onDataIO) {
         this.items = items;
         this.onDataIO = onDataIO;
+        descriptions = new ArrayList<>();
     }
 
     @Override
@@ -48,6 +49,7 @@ public class MeditationAdapter extends RecyclerView.Adapter<MeditationAdapter.Vi
         holder.title.setText(items.get(position).title());
         holder.title.setOnClickListener(v -> toggleVisibility(holder.description));
         holder.description.setText(items.get(position).desc());
+        descriptions.add(holder.description);
     }
 
     @Override
@@ -75,18 +77,30 @@ public class MeditationAdapter extends RecyclerView.Adapter<MeditationAdapter.Vi
     }
     private void toggleVisibility(TextView textView){
         if (textView.getVisibility() == GONE){
-            Timer.getInstance().startTimer();
+            boolean allGone =  descriptions.stream().allMatch(textView1 -> textView1.getVisibility() == GONE);
+            if (allGone){
+                Timer.getInstance().startTimer();
+                Log.d(TAG, "toggleVisibility: timer started");
+            }
+
             textView.setVisibility(VISIBLE);
         }else {
 
-            textView.setVisibility(GONE);
-            if (textView.getContext() != null){
-                //todo проверить как работает здесь, адаптер вроде создается в UI потоке.
-                Context context = textView.getContext();
-                DBUtils.getUserData(SessionManager.restoreSession(context),onDataIO);
-            }else {
-                Log.e(TAG, "toggleVisibility: ", new RuntimeException("TEXTVIEW CONTEXT ARE NULL!") );
+            boolean anyVisible  = descriptions.stream().anyMatch(textView1 -> {
+                return textView1.getVisibility() == VISIBLE && !textView1.equals(textView);
+            });
+
+            if (!anyVisible){
+                if (textView.getContext() != null){
+                    Context context = textView.getContext();
+                    DBUtils.getUserData(SessionManager.restoreSession(context),onDataIO);
+                }else {
+                    Log.e(TAG, "toggleVisibility: ", new RuntimeException("TEXTVIEW CONTEXT ARE NULL!") );
+                }
             }
+
+
+            textView.setVisibility(GONE);
 
 
 

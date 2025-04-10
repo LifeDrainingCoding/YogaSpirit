@@ -5,10 +5,12 @@ import android.content.res.Resources;
 import android.view.Gravity;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
 
 import com.pracktic.yogaspirit.R;
 import com.pracktic.yogaspirit.data.consts.MeditationType;
+import com.pracktic.yogaspirit.data.interfaces.PosCallback;
 import com.pracktic.yogaspirit.widgets.RadioButtonExt;
 
 import java.util.ArrayList;
@@ -31,30 +33,38 @@ public class Quiz implements PosCallback<String> {
         questionMap =  new LinkedHashMap<>();
         this.resources = resources;
 
-        ContextThemeWrapper themeWrapper =  new ContextThemeWrapper(context, R.style.Widget_Material3_CompoundButton_RadioButton);
+        for (int i = 0; i < questions.size(); i++) {
+            questionMap.put(i,null);
+        }
+
+        ContextThemeWrapper themeWrapper =  new ContextThemeWrapper(context, R.style.Widget_RadioButton);
         if  (btnTexts.size() % 2 == 0 && btnTexts.size() <= 8){
             for (int i = 0; i<btnTexts.size();i++ ){
 
-                RadioButtonExt radioButtonExt = new RadioButtonExt(themeWrapper, i);
-                radioButtonExt.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL);
-
-                questionMap.put(i,null);
-
-                radioButtonExt.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT
-                        , ViewGroup.LayoutParams.WRAP_CONTENT){{
-                    setMargins(dpToPx(6), dpToPx(6),dpToPx(6),dpToPx(6));
-                }});
-
-                radioButtonExt.setText(btnTexts.get(i));
-                if (i == btnTexts.size()-1){
-                    levelMax = i;
-                }
+                RadioButtonExt radioButtonExt = getRadioButtonExt(btnTexts, themeWrapper, i);
+                radioButtons.add(radioButtonExt);
+               levelMax = i+1;
             }
         }
     }
 
+    @NonNull
+    private RadioButtonExt getRadioButtonExt(List<String> btnTexts, ContextThemeWrapper themeWrapper, int i) {
+        RadioButtonExt radioButtonExt = new RadioButtonExt(themeWrapper, i);
+        radioButtonExt.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL);
+
+
+        radioButtonExt.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.MATCH_PARENT){{
+            setMargins(dpToPx(6), dpToPx(6),dpToPx(6),dpToPx(6));
+        }});
+
+        radioButtonExt.setText(btnTexts.get(i));
+        return radioButtonExt;
+    }
+
     public int getLevel(){
-        return (resultLevel*levelMax)/(levelMax*difference);
+        return (resultLevel)/(levelMax*difference);
     }
 
     public MeditationType getType() {

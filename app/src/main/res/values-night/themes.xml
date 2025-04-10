@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.YogaSpirit" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary colors -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>
@@ -31,4 +30,15 @@
         <item name="colorSurface">@color/background</item>
         <item name="colorOnSurface">@color/head_text</item>
     </style>
+    <style name="Widget.App.Button.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Button</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraSmall</item>
+        <item name="textFillColor">@color/body_text</item>
+        <item name="android:textColor">@color/body_text</item>
+    </style>
+    <style name="Widget.TextView" parent="Widget.MaterialComponents.TextView" >
+        <item name="textFillColor">@color/background</item>
+    </style>
+    <style name="Theme.YogaSpirit" parent="Base.Theme.YogaSpirit"/>
 </resources>

@@ -15,10 +15,6 @@ import com.pracktic.yogaspirit.databinding.FragmentTestsBinding;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link TestItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.ViewHolder> {
 
     private final List<TestItem> mValues;
@@ -42,6 +38,7 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.ViewHolder> 
         holder.holder.setOnClickListener(view -> {
             fragment.get().initTest(holder.item);
         });
+        holder.testName.setText(holder.item.type.testName);
 
     }
 

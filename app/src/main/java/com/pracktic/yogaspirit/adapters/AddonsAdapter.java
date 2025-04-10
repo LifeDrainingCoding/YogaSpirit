@@ -6,21 +6,22 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pracktic.yogaspirit.placeholder.AddonPlaceholder.PlaceholderItem;
+import com.pracktic.yogaspirit.data.consts.AddonType;
 import com.pracktic.yogaspirit.databinding.FragmentAddonBinding;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class AddonsAdapter extends RecyclerView.Adapter<AddonsAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<AddonType> items;
+    private final Consumer<AddonType> callback;
 
-    public AddonsAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    public AddonsAdapter(Consumer<AddonType> callback) {
+        this.callback = callback;
+        items = Arrays.stream(AddonType.values()).collect(Collectors.toList());
     }
 
     @Override
@@ -32,30 +33,30 @@ public class AddonsAdapter extends RecyclerView.Adapter<AddonsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.item = items.get(position);
+        holder.title.setText(holder.item.text);
+        holder.title.setOnClickListener(v -> {
+            callback.accept(holder.item);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final TextView title;
+        public AddonType item;
 
         public ViewHolder(FragmentAddonBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            title = binding.addonTitle;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + title.getText() + "'";
         }
     }
 }

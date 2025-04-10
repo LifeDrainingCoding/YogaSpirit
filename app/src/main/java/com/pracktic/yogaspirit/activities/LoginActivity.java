@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         regBtn = findViewById(R.id.registerBtn);
         auth = FirebaseAuth.getInstance();
 
-        //todo включить на релизе
-//        passwordEdt.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+       passwordEdt.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
 
     }
@@ -95,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        Session session =  new Session(email, password);
+                        SessionManager.saveSession(session,this);
                         proceedUser();
                         Log.d(TAG, "login:success");
                     } else {

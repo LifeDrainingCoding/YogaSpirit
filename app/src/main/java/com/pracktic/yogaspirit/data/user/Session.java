@@ -6,6 +6,10 @@ import java.io.Serializable;
 public class Session implements Serializable {
     private String email, password, login;
 
+    public Session(){
+
+    }
+
     public Session(String email, String password) {
         this.email = email;
         this.password = password;

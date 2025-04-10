@@ -32,23 +32,34 @@ android {
     }
 }
 
+
+
 dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    // For developers using AndroidX in their applications
+    implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'org.jsoup:jsoup:1.18.3'
     implementation 'com.google.code.gson:gson:2.12.1'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation platform('com.google.firebase:firebase-bom:33.8.0')
     implementation "com.google.firebase:firebase-database"
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'androidx.activity:activity:1.10.0'
+    // RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
+
+    implementation "androidx.work:work-runtime:2.7.1"
+
+    // Activity
+    implementation 'androidx.activity:activity:1.7.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.test.ext:junit:1.2.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.google.firebase:firebase-auth:23.1.0'
+    // https://mvnrepository.com/artifact/com.github.AnyChart/AnyChart-Android
+
     testImplementation 'junit:junit:4.13.2'
 }

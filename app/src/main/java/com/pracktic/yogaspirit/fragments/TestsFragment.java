@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -57,6 +58,7 @@ public class TestsFragment extends Fragment {
 
     private List<RadioButtonExt> buttons;
 
+    private RadioGroup radioGroup;
     private static final String TAG = "TestsFragment";
 
     private boolean isBackPressed;
@@ -135,6 +137,7 @@ public class TestsFragment extends Fragment {
 
     public void initTest(TestsPlaceholder.TestItem item){
 
+
         this.item = item;
         isBackPressed = false;
 
@@ -143,13 +146,9 @@ public class TestsFragment extends Fragment {
         View test = getLayoutInflater().inflate(R.layout.fragment_poll, frameLayout, false);
         quiz = new Quiz(item.type,item.type.questions, item.type.btnTexts,getContext(), getResources());
         buttons = quiz.getRadioButtons();
-        RadioGroup radioGroup =  new RadioGroup(getContext());
+        radioGroup =  test.findViewById(R.id.radio_group);
 
-        LinearLayout col1, col2;
-
-        col1 = test.findViewById(R.id.col1);
-        col2 = test.findViewById(R.id.col2);
-
+        Log.d(TAG, "initTest: buttons size "+buttons.size());
         for (int i = 0; i<buttons.size(); i++){
             radioGroup.addView(buttons.get(i));
         }
@@ -157,43 +156,40 @@ public class TestsFragment extends Fragment {
 
         for (int i = 0; i<buttons.size(); i++){
 
-            buttons.get(i).setOnClickListener(v -> {
-                boolean isSelectedOne = buttons.stream().anyMatch(View::isSelected);
-                if (isSelectedOne){
-                    buttons.forEach(radioButtonExt -> {
-                        if (radioButtonExt.isSelected()){
+            buttons.get(i).setOnClickListener((btn) -> {
+                RadioButtonExt rbtn = ((RadioButtonExt) btn);
+                buttons.forEach(radioButtonExt -> {
+                    if (radioButtonExt.isChecked() && !radioButtonExt.equals(rbtn)){
+                        quiz.resultLevel = quiz.resultLevel - rbtn.level;
+                    }
+                });
+                quiz.resultLevel = quiz.resultLevel + rbtn.level;
+                quiz.questionMap.put(quiz.currentPos, rbtn.level);
 
-                            quiz.resultLevel = quiz.resultLevel - radioButtonExt.level;
-
-
-                        }
-                    });
-                }
-
-                quiz.questionMap.put(quiz.currentPos, ((RadioButtonExt) v).level);
-                quiz.resultLevel = quiz.resultLevel + ((RadioButtonExt) v).level;
                 boolean isTestFinished = quiz.questionMap.values().stream().allMatch(Objects::nonNull);
                 if (isTestFinished){
+                    buttons.forEach(radioButtonExt -> {
+                        radioButtonExt.setEnabled(false);
+                    });
+                    Log.i(TAG, "initTest: questionMap size "+quiz.questionMap.size());
                     updateQuestion("Тест завершен, ваш уровень "+item.type.txt +": "+quiz.getLevel()+
                             "\n "+item.type.getDescForLevel(quiz.getLevel()));
 
                     saveLevel();
 
                 }
+                Log.d(TAG, "initTest: resultLevel "+quiz.resultLevel);
             });
 
-            if (i%2 == 0){
-                col1.addView(buttons.get(i));
-                continue;
-            }
-            col2.addView(buttons.get(i));
         }
 
         frameLayout.addView(test);
 
         initTxtView(test);
         initBtns(test);
-
+        buttons.forEach(radioButtonExt -> {
+            Log.d(TAG, "initTest: isButtonVisible"+radioButtonExt.getVisibility());
+        });
     }
 
 
@@ -208,6 +204,7 @@ public class TestsFragment extends Fragment {
         prev.setOnClickListener(v -> {
             updateQuestion(quiz.prev());
             MaterialButton btn = ((MaterialButton) v);
+            enableBtn(next);
             if (quiz.currentPos<=0){
 
                 disableBtn(btn);
@@ -219,7 +216,7 @@ public class TestsFragment extends Fragment {
         next.setOnClickListener(v -> {
             updateQuestion(quiz.next());
             MaterialButton btn = ((MaterialButton) v);
-
+            enableBtn(prev);
             if (quiz.currentPos>=quiz.getQuestions().size()-1){
                 disableBtn(btn);
             }else {
@@ -243,15 +240,19 @@ public class TestsFragment extends Fragment {
     }
     private void updateQuestion(String s){
         textView.setText(s);
+
+        radioGroup.clearCheck();
         if (quiz.questionMap.get(quiz.currentPos) == null){
+            Log.i(TAG, "updateQuestion: updated question are null");
             buttons.forEach(radioButtonExt -> {
-                radioButtonExt.setSelected(false);
+                radioButtonExt.setChecked(false);
             });
         }else {
+            Log.i(TAG, "updateQuestion: updated question aren't null");
            RadioButtonExt  chosenBtn =  IterableUtils.find(buttons, btn -> {
                return btn.level == quiz.questionMap.get(quiz.currentPos);
            });
-           chosenBtn.setSelected(true);
+           chosenBtn.setChecked(true);
         }
     }
 

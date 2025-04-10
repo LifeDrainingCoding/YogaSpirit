@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class URLExtractor {
+    private static final String TAG = URLExtractor.class.getName();
     public static List<MeditationURL> getUrls(Resources resources)  {
         try(InputStream is =  resources.openRawResource(R.raw.audio_links);) {
             byte[] buffer =  new byte[is.available()];
@@ -25,8 +26,9 @@ public class URLExtractor {
 
             items.forEach(s -> {
                 String[] parts = s.split(";");
-                String url = parts[0].split("\"")[0];
-                urls.add(new MeditationURL(url,parts[1],Integer.parseInt(parts[2])));
+                String url = parts[0].split("\"")[1];
+                Log.d(TAG, "getUrls: "+parts[2]);
+                urls.add(new MeditationURL(url,parts[1],Integer.parseInt(parts[2].trim())));
             });
 
 

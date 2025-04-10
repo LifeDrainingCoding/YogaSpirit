@@ -1,6 +1,5 @@
 package com.pracktic.yogaspirit.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.pracktic.yogaspirit.R;
 import com.pracktic.yogaspirit.data.Article;
-import com.pracktic.yogaspirit.data.OnDataIO;
+import com.pracktic.yogaspirit.data.interfaces.OnDataIO;
 import com.pracktic.yogaspirit.data.SessionManager;
 import com.pracktic.yogaspirit.data.singleton.Timer;
 import com.pracktic.yogaspirit.data.singleton.Timestamp;
@@ -24,6 +23,7 @@ import com.pracktic.yogaspirit.data.user.Personalisation;
 import com.pracktic.yogaspirit.adapters.MeditationAdapter;
 import com.pracktic.yogaspirit.data.user.UserData;
 import com.pracktic.yogaspirit.utils.DBUtils;
+import com.pracktic.yogaspirit.utils.DateUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +42,7 @@ public class MeditationFragment extends Fragment implements Consumer<List<Articl
     public MeditationFragment() {
     }
 
-    // TODO: Customize parameter initialization
+
 
 
     @Override
@@ -61,14 +61,12 @@ public class MeditationFragment extends Fragment implements Consumer<List<Articl
         try {
             this.frameLayout = new FrameLayout(requireContext());
 
-             list = rootView.findViewById(R.id.list);
-
-            Context context = list.getContext();
-
-            list.setLayoutManager(new LinearLayoutManager(context));
 
 
-            Personalisation.loadMyArticles(context, this);
+
+                Personalisation.loadMyArticles(requireContext(), this);
+
+
 
             frameLayout.addView(rootView);
             return frameLayout;
@@ -77,15 +75,27 @@ public class MeditationFragment extends Fragment implements Consumer<List<Articl
         }
         return rootView;
 
-            //todo Исправить MeditationPlaceHolder
-//            recyclerView.setAdapter(new MeditationAdapter();
+
         }
 
     @Override
     public void accept(List<Article> articles) {
-        requireActivity().runOnUiThread(() ->{
-            list.setAdapter(new MeditationAdapter(articles, this));
-        });
+        if (isAdded()){
+            requireActivity().runOnUiThread(()->{
+                frameLayout.removeAllViews();
+                list = new RecyclerView(frameLayout.getContext());
+
+                list.setAdapter(new MeditationAdapter(articles, this));
+
+                list.setLayoutManager(new LinearLayoutManager(frameLayout.getContext()));
+
+
+                frameLayout.addView(list);
+            });
+
+        }
+
+
 
     }
 
@@ -95,7 +105,8 @@ public class MeditationFragment extends Fragment implements Consumer<List<Articl
         if (userData.getMeditationStats() == null) {
             userData.setMeditationStats(new HashMap<>());
         }
-        userData.getMeditationStats().merge(timestamp.getDate(),timestamp.getTotalTime(),Integer::sum);
+        userData.getMeditationStats().merge(DateUtils.getStringFromDate(timestamp.getDate()),timestamp.getTotalTime(),Integer::sum);
+
         DBUtils.uploadUserData(SessionManager.restoreSession(requireContext()),userData, this);
     }
 

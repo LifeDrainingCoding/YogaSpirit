@@ -49,7 +49,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         style="@style/Widget.TabBar"
-        android:layout_width="400dp"
+        android:layout_width="370dp"
         android:layout_height="60dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,12 +95,6 @@
             android:text="@string/progress_tab"
             android:tag="PROGRESS"/>
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/stress_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/stress_tab"
-            android:tag="STRESS"/>
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/addons_tab"

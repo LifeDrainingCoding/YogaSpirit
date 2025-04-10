@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class Timer {
     private Long start;
 
+    public boolean isTimerStarted;
     private static Timer INSTANCE;
     private Timer(){}
 
@@ -22,15 +23,17 @@ public class Timer {
     }
 
     public void startTimer(){
+        isTimerStarted = true;
         start = System.currentTimeMillis();
     }
     public Timestamp stopTimer(){
         if (start == null){
             return null;
         }
+        isTimerStarted = false;
 
         long endpoint = System.currentTimeMillis() - start;
 
-        return new Timestamp((int)Duration.ofMillis(endpoint).toMinutes(), LocalDate.now());
+        return new Timestamp((int)Duration.ofMillis(endpoint).getSeconds(), LocalDate.now());
     }
 }

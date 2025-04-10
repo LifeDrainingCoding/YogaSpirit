@@ -1,10 +1,16 @@
 package com.pracktic.yogaspirit;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.Progress;
+import org.jsoup.nodes.Element;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import android.app.Activity;
+import android.util.Log;
+import android.webkit.WebView;
 
 import androidx.fragment.app.Fragment;
 
@@ -24,6 +30,7 @@ import java.util.List;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws IOException {
+
 
 
     }

@@ -1,13 +1,13 @@
 package com.pracktic.yogaspirit.data.user;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Toast;
 
 
 import com.pracktic.yogaspirit.data.Article;
 import com.pracktic.yogaspirit.data.MeditationURL;
+import com.pracktic.yogaspirit.data.interfaces.OnDataIO;
 import com.pracktic.yogaspirit.data.SessionManager;
 import com.pracktic.yogaspirit.script.ArticleGather;
 import com.pracktic.yogaspirit.script.URLExtractor;
@@ -22,15 +22,22 @@ public class Personalisation {
     public static void loadMyURLs(Context context,  Consumer<List<MeditationURL>> consumer){
         Session session = SessionManager.restoreSession(context);
 
+        if (session == null){
+            Log.e(TAG, "loadMyURLs: SESSION ARE NULL", new RuntimeException("NULL SESSION") );
+            return;
+        }
+
         DBUtils.getUsersRef().child(session.getLogin()).get().addOnSuccessListener(dataSnapshot -> {
             UserData userData = dataSnapshot.getValue(UserData.class);
 
             List<MeditationURL> allUrls = URLExtractor.getUrls(context.getResources());
-            assert userData != null;
+
+           assert userData != null;
             if (userData.getLevels() == null || userData.getLevels().isEmpty()){
                 consumer.accept(new ArrayList<>());
                 Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
                 Log.i(TAG, "loadMyURLs: levels are null");
+                return;
             }
 
            List<MeditationURL> myUrls =  new ArrayList<>();
@@ -56,25 +63,35 @@ public class Personalisation {
         DBUtils.getUsersRef().child(session.getLogin()).get().addOnSuccessListener(dataSnapshot -> {
 
            UserData userData = dataSnapshot.getValue(UserData.class);
-           List<Article> allArticle = ArticleGather.getAllArticles();
+           ArticleGather.getAllArticles(new OnDataIO<>() {
+               @Override
+               public void onLoad(List<Article> articles) {
+                   assert userData != null;
+                   if (userData.getLevels() == null || userData.getLevels().isEmpty()) {
+                       callback.accept(new ArrayList<>());
+                       Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
+                       Log.i(TAG, "loadMyArticles: levels are null");
+                   }
+                   List<Article> myArticles = new ArrayList<>();
 
-            assert userData != null;
-            if (userData.getLevels() == null || userData.getLevels().isEmpty()){
-                callback.accept(new ArrayList<>());
-                Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
-                Log.i(TAG, "loadMyArticles: levels are null");
-            }
-            List<Article> myArticles = new ArrayList<>();
+                   articles.forEach(article -> {
+                       userData.getLevels().forEach((s, integer) -> {
+                           if (article.type().name().equals(s) && integer >= article.level()) {
+                               myArticles.add(article);
+                           }
+                       });
+                   });
 
-            allArticle.forEach(article -> {
-                userData.getLevels().forEach((s, integer) -> {
-                    if (article.type().name().equals(s) && integer>= article.level()){
-                        myArticles.add(article);
-                    }
-                });
-            });
+                   callback.accept(myArticles);
+               }
 
-            callback.accept(myArticles);
+               @Override
+               public void onUpload() {
+
+               }
+           });
+
+
 
         });
 

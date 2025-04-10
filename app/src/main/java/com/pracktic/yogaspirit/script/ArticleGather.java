@@ -3,9 +3,11 @@ package com.pracktic.yogaspirit.script;
 import android.util.Log;
 
 import com.pracktic.yogaspirit.data.Article;
+import com.pracktic.yogaspirit.data.interfaces.OnDataIO;
 import com.pracktic.yogaspirit.data.consts.DepressionArticles;
 import com.pracktic.yogaspirit.data.consts.MeditationType;
 import com.pracktic.yogaspirit.data.consts.WarnArticles;
+import com.pracktic.yogaspirit.data.interfaces.OnDataLoader;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.jsoup.Jsoup;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ArticleGather {
@@ -112,11 +113,14 @@ public class ArticleGather {
 
         return articles;
     }
-    public static List<Article> getAllArticles(){
-        List<Article> allArticles = getStressArticles();
-        CollectionUtils.addAll(allArticles, getDepressionArticles());
-        CollectionUtils.addAll(allArticles, getWarnArticles());
-        return allArticles;
+    public static void getAllArticles(OnDataLoader<List<Article>> onDataIO){
+        new Thread(()->{
+            List<Article> allArticles = getStressArticles();
+            CollectionUtils.addAll(allArticles, getDepressionArticles());
+            CollectionUtils.addAll(allArticles, getWarnArticles());
+            onDataIO.onLoad(allArticles);
+        }).start();
+
     }
 
 }

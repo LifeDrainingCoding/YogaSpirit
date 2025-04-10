@@ -37,7 +37,7 @@
         <item name="textFillColor">@color/body_text</item>
         <item name="android:textColor">@color/body_text</item>
     </style>
-    <style name="Widget.MaterialComponents.TextView" >
+    <style name="Widget.TextView" parent="Widget.MaterialComponents.TextView" >
         <item name="textFillColor">@color/background</item>
     </style>
     <style name="Theme.YogaSpirit" parent="Base.Theme.YogaSpirit"/>

@@ -8,40 +8,31 @@
     tools:context=".fragments.TestsFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/buttonsHolder"
         style="@style/BaseMargin"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="350dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/col1"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/col2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="200dp"
+            >
 
 
-        </LinearLayout>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_group"
+                >
+
+            </RadioGroup>
+        </ScrollView>
     </LinearLayout>
 
     <ScrollView
@@ -72,6 +63,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         style="@style/BaseMargin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -79,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
         app:layout_constraintVertical_bias="0">
 
         <com.google.android.material.button.MaterialButton
@@ -87,21 +79,26 @@
             style="?attr/materialIconButtonFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:icon="@drawable/chevron_l"
-            app:iconGravity="textTop"
+            android:layout_weight="1"
             android:text=""
+            app:icon="@drawable/chevron_l"
+            app:iconGravity="textStart"
             app:iconSize="40dp"
-            android:layout_weight="1"/>
+            app:iconTint="@color/body_text"
+            app:iconPadding="0dp"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/nextBtn"
             style="?attr/materialIconButtonFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:icon="@drawable/chevron_r"
-            app:iconGravity="textTop"
+            android:layout_weight="1"
             android:text=""
+            app:icon="@drawable/chevron_r"
+            app:iconGravity="textEnd"
             app:iconSize="40dp"
-            android:layout_weight="1"/>
+            app:iconTint="@color/body_text"
+            app:iconPadding="0dp"/>
 
     </LinearLayout>
 
