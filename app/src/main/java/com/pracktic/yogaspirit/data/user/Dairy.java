@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 
 public class Dairy implements OnDataLoader<UserData> {
 
-    private Consumer<List<Note>> callback;
-    private Context context;
+    private final Consumer<List<Note>> callback;
 
     public Dairy(Consumer<List<Note>> callback ){
         this.callback = callback;

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pracktic.yogaspirit.R;
@@ -49,8 +50,13 @@ public class LoginActivity extends AppCompatActivity {
             proceedUser();
         }
         regBtn.setOnClickListener(btn -> {
-            if (checkFields()){
-                registerUser(loginEdt.getText().toString().trim(), passwordEdt.getText().toString().trim());
+            try {
+
+                if (checkFields()){
+                    registerUser(loginEdt.getText().toString().trim(), passwordEdt.getText().toString().trim());
+                }
+            } catch (FirebaseAuthException e) {
+                Log.e(TAG, "regBtn: Error during auth", e );
             }
         });
         loginBtn.setOnClickListener(btn ->{
@@ -60,7 +66,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private boolean checkFields(){
-        if (loginEdt.getText() == null || passwordEdt.getText() == null ){
+        if (loginEdt.getText() == null || passwordEdt.getText() == null){
+            return false;
+        }
+        String s1 = loginEdt.getText().toString(),s2 = passwordEdt.getText().toString();
+        if (s1.isBlank() || s1.isEmpty() || s2.isBlank() || s2.isEmpty()){
             return false;
         }
         return true;
@@ -69,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isUserActive(){
         return auth.getCurrentUser()!=null;
     }
-    private void registerUser(String email, String password){
+    private void registerUser(String email, String password) throws FirebaseAuthException{
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -106,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Ошибка при входе.",
                                 Toast.LENGTH_SHORT).show();
                         Toast.makeText(this, task.getException().getLocalizedMessage(),Toast.LENGTH_LONG ).show();
-
                     }
                 });
     }

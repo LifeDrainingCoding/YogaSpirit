@@ -2,6 +2,7 @@ package com.pracktic.yogaspirit.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -88,7 +89,7 @@ public class AddonsFragment extends Fragment implements Consumer<AddonType> {
 
         switch (addonType){
             case AUDIO -> {
-                list = new RecyclerView(requireContext());
+                list = (RecyclerView) LayoutInflater.from(requireContext()).inflate(R.layout.inflater_list,frameLayout,false);
 
                 List<MeditationURL> allUrls = URLExtractor.getUrls(getResources());
                 new TittleGather(requireContext()).getTitlesAsync(
@@ -145,7 +146,10 @@ public class AddonsFragment extends Fragment implements Consumer<AddonType> {
 
                  ArticleGather.getAllArticles(articles -> requireActivity().runOnUiThread(()->{
                      frameLayout.removeAllViews();
-                     list = new RecyclerView(frameLayout.getContext());
+                     list = (RecyclerView) LayoutInflater.from(requireContext()).inflate(R.layout.inflater_list,frameLayout,false);
+                     list.setVerticalScrollBarEnabled(true);
+                     list.setScrollbarFadingEnabled(false);
+                     list.setScrollBarSize(16);
 
                      list.setAdapter(new MeditationAdapter(articles, userData -> {
                          Timestamp timestamp = Timer.getInstance().stopTimer();

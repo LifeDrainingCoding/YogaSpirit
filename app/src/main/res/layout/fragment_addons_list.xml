@@ -9,5 +9,9 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
+    android:fadeScrollbars="false"
+    android:scrollbarSize="16dp"
+    android:scrollbarThumbVertical="@color/primary"
+    android:scrollbars="vertical"
     tools:context=".fragments.AddonsFragment"
     tools:listitem="@layout/fragment_addon" />

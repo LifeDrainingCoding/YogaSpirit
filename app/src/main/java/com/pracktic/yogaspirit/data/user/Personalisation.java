@@ -5,6 +5,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.pracktic.yogaspirit.data.Article;
 import com.pracktic.yogaspirit.data.MeditationURL;
 import com.pracktic.yogaspirit.data.interfaces.OnDataIO;
@@ -19,9 +21,10 @@ import java.util.function.Consumer;
 
 public class Personalisation {
     private static final String TAG = Personalisation.class.getName();
+
+
     public static void loadMyURLs(Context context,  Consumer<List<MeditationURL>> consumer){
         Session session = SessionManager.restoreSession(context);
-
         if (session == null){
             Log.e(TAG, "loadMyURLs: SESSION ARE NULL", new RuntimeException("NULL SESSION") );
             return;
@@ -58,7 +61,7 @@ public class Personalisation {
         });
 
     }
-    public static void loadMyArticles(Context context, Consumer<List<Article>> callback){
+    public static void loadMyArticles(FragmentActivity activity, Context context, Consumer<List<Article>> callback){
         Session session = SessionManager.restoreSession(context);
         DBUtils.getUsersRef().child(session.getLogin()).get().addOnSuccessListener(dataSnapshot -> {
 
@@ -69,11 +72,19 @@ public class Personalisation {
                    assert userData != null;
                    if (userData.getLevels() == null || userData.getLevels().isEmpty()) {
                        callback.accept(new ArrayList<>());
-                       Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
+                       activity.runOnUiThread(()->{
+                           Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
+                       });
                        Log.i(TAG, "loadMyArticles: levels are null");
                    }
                    List<Article> myArticles = new ArrayList<>();
 
+                   if (userData.getLevels() == null){
+                       activity.runOnUiThread(()->{
+                           Toast.makeText(context, "Нет рекомендаций, пройдите хотя бы 1 тест!", Toast.LENGTH_LONG).show();
+                       });
+                       return;
+                   }
                    articles.forEach(article -> {
                        userData.getLevels().forEach((s, integer) -> {
                            if (article.type().name().equals(s) && integer >= article.level()) {

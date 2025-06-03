@@ -64,7 +64,7 @@ public class MeditationFragment extends Fragment implements Consumer<List<Articl
 
 
 
-                Personalisation.loadMyArticles(requireContext(), this);
+                Personalisation.loadMyArticles(requireActivity(),requireContext(), this);
 
 
 

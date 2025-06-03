@@ -2,11 +2,6 @@ package com.pracktic.yogaspirit.placeholder;
 
 import com.pracktic.yogaspirit.data.MeditationURL;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 public class RecPlaceholder {
 

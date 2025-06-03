@@ -77,6 +77,11 @@ public class ProgressFragment extends Fragment implements OnDataIO<UserData> {
 
             List<Stat> stats = new ArrayList<>();
 
+            if (userData.getMeditationStats()==null){
+                Toast.makeText(getContext(), "Нет статистики", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             userData.getMeditationStats().forEach((s, integer) -> {
                 stats.add(new Stat(DateUtils.getLDFromString(s),integer/60));
             });

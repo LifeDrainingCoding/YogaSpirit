@@ -38,14 +38,13 @@ public class Quiz implements PosCallback<String> {
         }
 
         ContextThemeWrapper themeWrapper =  new ContextThemeWrapper(context, R.style.Widget_RadioButton);
-        if  (btnTexts.size() % 2 == 0 && btnTexts.size() <= 8){
+
             for (int i = 0; i<btnTexts.size();i++ ){
 
                 RadioButtonExt radioButtonExt = getRadioButtonExt(btnTexts, themeWrapper, i);
                 radioButtons.add(radioButtonExt);
                levelMax = i+1;
             }
-        }
     }
 
     @NonNull

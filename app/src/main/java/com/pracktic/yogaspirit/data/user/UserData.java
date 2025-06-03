@@ -18,7 +18,8 @@ public class UserData implements Serializable {
 
     private HashMap<String, Note> notes;
 
-    public UserData(){}
+    public UserData(){
+    }
 
     public UserData(String email, String password, @Nullable HashMap<String,Integer> levels) {
         this.levels = levels;
